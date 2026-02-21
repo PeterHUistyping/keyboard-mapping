@@ -30,13 +30,14 @@ def cust_click(x,y):
         MOUSE.position = pos
 
 
-def cust_press(x,y):
+def cust_press(x,y, reset_pos=True):
     global PAUSE
     if not PAUSE:
         pos = MOUSE.position
         MOUSE.position = (x,y)
         MOUSE.press(Button.left)
-        MOUSE.position = pos
+        if reset_pos:
+            MOUSE.position = pos
 
 
 def cust_release(x,y):
@@ -62,7 +63,7 @@ def on_press(key):
         KEEP_MOVING = not KEEP_MOVING
         print("KEEP_MOVING:", KEEP_MOVING)
         if not KEEP_MOVING:
-            cust_press(CENTER_X - DELTA, CENTER_Y)
+            cust_press(CENTER_X - DELTA, CENTER_Y, reset_pos=True)
         else: 
             cust_release(CENTER_X - DELTA, CENTER_Y)
 
@@ -74,13 +75,13 @@ def on_press(key):
         if key.char in MOVE_KEYS:
             '''A S D W, PRESS and HOLD, Release to STOP'''
             if key.char == 'a' or key.char == 'A':
-                cust_press(CENTER_X - DELTA, CENTER_Y)
+                cust_press(CENTER_X - DELTA, CENTER_Y, reset_pos=False) 
             elif key.char == 'd' or key.char == 'D':
-                cust_press(CENTER_X + DELTA, CENTER_Y)
+                cust_press(CENTER_X + DELTA, CENTER_Y, reset_pos=False)
             elif key.char == 's' or key.char == 'S':
-                cust_press(CENTER_X, CENTER_Y + DELTA)
+                cust_press(CENTER_X, CENTER_Y + DELTA, reset_pos=False)
             elif key.char == 'w' or key.char == 'W':
-                cust_press(CENTER_X, CENTER_Y - DELTA)
+                cust_press(CENTER_X, CENTER_Y - DELTA, reset_pos=False)
         else:
             '''F M J H E for click, case-insensitive'''
             CLICK_CHAR = ['f', 'm', 'j', 'h', 'e', 't', 'c']
