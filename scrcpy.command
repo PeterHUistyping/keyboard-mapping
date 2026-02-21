@@ -1,4 +1,5 @@
 # sudo bash /Users/peterhu/Documents/LargeFiles/Coding/utils/mirror/scrcpy.sh
+sudo -v
 # key bindings & scrcpy
-sudo /opt/homebrew/bin/python3.10 /Users/peterhu/Documents/LargeFiles/Coding/utils/mirror/keyboard-map.py && scrcpy
+sudo /opt/homebrew/bin/python3.10 /Users/peterhu/Documents/LargeFiles/Coding/utils/mirror/keyboard-map.py & scrcpy > /dev/null 2>&1 
 

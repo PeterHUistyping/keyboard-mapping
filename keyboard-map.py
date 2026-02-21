@@ -48,8 +48,8 @@ def on_press(key):
 
     # LISTEN.stop() 
     if key == Key.tab:
-        print("PAUSE:", PAUSE)
         PAUSE = not PAUSE
+        print("PAUSE:", PAUSE)
 
     elif key in [Key.space, Key.shift, Key.tab, Key.esc]:
         cust_click(key_binding_json["click"][key.name][0], key_binding_json["click"][key.name][1])
