@@ -14,8 +14,8 @@ from pynput.mouse import Button, Controller
 from pynput.keyboard import Key, Listener
 
 
-global MOUSE, LISTEN, PAUSE
-PAUSE = False
+global MOUSE, LISTEN, PAUSE, KEEP_MOVING
+PAUSE, KEEP_MOVING = False, False
 MOUSE = Controller()
 MOVE_KEYS = ['a', 's', 'd', 'w']
 MOVE_KEYS += [c.upper() for c in MOVE_KEYS]
@@ -24,42 +24,54 @@ MOVE_KEYS += [c.upper() for c in MOVE_KEYS]
 def cust_click(x,y):
     global PAUSE
     if not PAUSE:
+        pos = MOUSE.position
         MOUSE.position = (x,y)
         MOUSE.click(Button.left)
+        MOUSE.position = pos
 
 
 def cust_press(x,y):
     global PAUSE
     if not PAUSE:
+        pos = MOUSE.position
         MOUSE.position = (x,y)
         MOUSE.press(Button.left)
+        MOUSE.position = pos
 
 
 def cust_release(x,y):
     global PAUSE
     if not PAUSE:
+        pos = MOUSE.position
         MOUSE.position = (x,y)
         MOUSE.release(Button.left)
+        MOUSE.position = pos
 
 
 def on_press(key):
-    global PAUSE
+    global PAUSE, KEEP_MOVING
     print('{0} pressed at {1}'.format(key, MOUSE.position))
-
+   
     # LISTEN.stop() 
     if key == Key.tab:
         PAUSE = not PAUSE
         print("PAUSE:", PAUSE)
+    
+    elif key == Key.caps_lock:
+        # start or stop the movement
+        KEEP_MOVING = not KEEP_MOVING
+        print("KEEP_MOVING:", KEEP_MOVING)
+        if not KEEP_MOVING:
+            cust_press(CENTER_X - DELTA, CENTER_Y)
+        else: 
+            cust_release(CENTER_X - DELTA, CENTER_Y)
 
+        
     elif key in [Key.space, Key.shift, Key.tab, Key.esc]:
         cust_click(key_binding_json["click"][key.name][0], key_binding_json["click"][key.name][1])
 
     elif hasattr(key, 'char'): 
         if key.char in MOVE_KEYS:
-            CENTER_X = key_binding_json["move"]["center"][0]
-            CENTER_Y = key_binding_json["move"]["center"][1]
-            DELTA = key_binding_json["move"]["delta"]
-
             '''A S D W, PRESS and HOLD, Release to STOP'''
             if key.char == 'a' or key.char == 'A':
                 cust_press(CENTER_X - DELTA, CENTER_Y)
@@ -107,6 +119,12 @@ if __name__ == "__main__":
     with open(json_path, 'r') as f:
         key_binding_json = json.load(f)
         print("Loaded JSON data:", key_binding_json)
+    
+
+    CENTER_X = key_binding_json["move"]["center"][0]
+    CENTER_Y = key_binding_json["move"]["center"][1]
+    DELTA = key_binding_json["move"]["delta"]
+
 
     with Listener(
             on_press=on_press,
