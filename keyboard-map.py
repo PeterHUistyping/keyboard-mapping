@@ -118,9 +118,9 @@ def on_press(key):
             with open(json_path, 'w') as f:
                 json.dump(key_binding_json_new, f, indent=4)
 
-            json_path = os.path.join(current_dir, "archive", "YanYun-backup" + "_" + str(time.time()) + ".json")
-            with open(json_path, 'w') as f:
-                json.dump(key_binding_json, f, indent=4)
+            json_path_backup = os.path.join(current_dir, "archive", "YanYun-backup" + "_" + str(time.time()) + ".json")
+            with open(json_path_backup, 'w') as f:
+                json.dump(key_binding_json_new, f, indent=4)
             key_binding_json = key_binding_json_new.copy()
             print("Saved recorded positions to JSON file.")
 
