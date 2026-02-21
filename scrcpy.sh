@@ -1,5 +1,4 @@
-# brew install scrcpy
-# brew install --cask android-platform-tools
+# sudo bash ./mirror/scrcpy.sh 
+# key bindings & scrcpy
+sudo /opt/homebrew/bin/python3.10 mirror/keyboard-map.py & scrcpy
 
-# adb devices
-scrcpy

@@ -1,5 +1,5 @@
 '''
-    On macOS, you need to grant permissions for Privacy & Security -> Accessibility | Input Monitoring,
+    On macOS, you need to grant permissions for Privacy & Security -> Accessibility + Input Monitoring,
         - the terminal app, 
         - IDE or whatever you are running this script from. 
     Otherwise, it won't be able to control the mouse.
@@ -9,12 +9,13 @@
 
     sudo /opt/homebrew/bin/python3.10 mirror/keyboard-map.py
 '''
-import json
+import json, os
 from pynput.mouse import Button, Controller
 from pynput.keyboard import Key, Listener
 
 
-global MOUSE, LISTEN
+global MOUSE, LISTEN, PAUSE
+PAUSE = False
 MOUSE = Controller()
 MOVE_KEYS = ['a', 's', 'd', 'w']
 MOVE_KEYS += [c.upper() for c in MOVE_KEYS]
@@ -22,12 +23,14 @@ MOVE_KEYS += [c.upper() for c in MOVE_KEYS]
 
 def cust_click(x,y):
     MOUSE.position = (x,y)
-    MOUSE.click(Button.left)
+    if not PAUSE:
+        MOUSE.click(Button.left)
 
 
 def cust_press(x,y):
     MOUSE.position = (x,y)
-    MOUSE.press(Button.left)
+    if not PAUSE:
+        MOUSE.press(Button.left)
 
 
 def cust_release(x,y):
@@ -43,6 +46,8 @@ def on_press(key):
         pass
     elif key == Key.right:
         pass 
+    elif key == Key.tab:
+        PAUSE = not PAUSE
 
     elif key in [Key.space, Key.shift, Key.tab, Key.esc]:
         cust_click(key_binding_json["click"][key.name][0], key_binding_json["click"][key.name][1])
@@ -93,7 +98,8 @@ def on_release(key):
 
 # Collect events until released
 if __name__ == "__main__":
-    json_path = "mirror/archive/YanYun.json"
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    json_path = os.path.join(current_dir, "archive", "YanYun.json")
 
     # read from json file
     with open(json_path, 'r') as f:
