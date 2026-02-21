@@ -22,31 +22,33 @@ MOVE_KEYS += [c.upper() for c in MOVE_KEYS]
 
 
 def cust_click(x,y):
-    MOUSE.position = (x,y)
+    global PAUSE
     if not PAUSE:
+        MOUSE.position = (x,y)
         MOUSE.click(Button.left)
 
 
 def cust_press(x,y):
-    MOUSE.position = (x,y)
+    global PAUSE
     if not PAUSE:
+        MOUSE.position = (x,y)
         MOUSE.press(Button.left)
 
 
 def cust_release(x,y):
-    MOUSE.position = (x,y)
-    MOUSE.release(Button.left)
+    global PAUSE
+    if not PAUSE:
+        MOUSE.position = (x,y)
+        MOUSE.release(Button.left)
 
 
 def on_press(key):
+    global PAUSE
     print('{0} pressed at {1}'.format(key, MOUSE.position))
 
     # LISTEN.stop() 
-    if key == Key.left:
-        pass
-    elif key == Key.right:
-        pass 
-    elif key == Key.tab:
+    if key == Key.tab:
+        print("PAUSE:", PAUSE)
         PAUSE = not PAUSE
 
     elif key in [Key.space, Key.shift, Key.tab, Key.esc]:
