@@ -51,6 +51,22 @@ def cust_release(x,y):
         MOUSE.position = pos
 
 
+def print_with_color(attribute, boolean_value):
+    color_code = "\033[92m" if boolean_value else "\033[91m"  # Green for True, Red for False
+    reset_code = "\033[0m"
+    print(f"{color_code}{attribute}: {boolean_value}{reset_code}")
+
+
+def print_summary(key_binding_json):
+    print("---- Available Key Bindings ----")
+    print("Current key bindings:")
+    for action, bindings in key_binding_json.items():
+        print(f"{action}:")
+        for key_name, pos in bindings.items():
+            print(f"  {key_name}: {pos}")
+    print("---- Available Key Bindings ----")
+
+
 def on_press(key):
     global PAUSE, KEEP_MOVING, DISABLE_RELEASE, HISTORY_CHAR, RECORD_KEYS, key_binding_json, key_binding_json_new, json_path
     pos_x, pos_y = MOUSE.position
@@ -59,12 +75,12 @@ def on_press(key):
     # LISTEN.stop() 
     if key == Key.tab:
         PAUSE = not PAUSE
-        print("PAUSE:", PAUSE)
+        print_with_color("PAUSE", PAUSE)
     
     elif key == Key.caps_lock:
         # start or stop the movement
         KEEP_MOVING = not KEEP_MOVING
-        print("KEEP_MOVING:", KEEP_MOVING)
+        print_with_color("KEEP_MOVING", KEEP_MOVING)
         if not KEEP_MOVING:
             cust_press(CENTER_X - DELTA, CENTER_Y, reset_pos=True)
         else: 
@@ -107,8 +123,8 @@ def on_press(key):
                 key_binding_json_new["click"][key.char.lower()] = [int(pos_x), int(pos_y)]
         HISTORY_CHAR = key.char
     
+    # start recording a new position for json file.
     elif key == Key.f1:
-        # start recording a new position for json file.
         print("Recording position for F1 key...")
         RECORD_KEYS = not RECORD_KEYS
         if RECORD_KEYS:
@@ -123,6 +139,10 @@ def on_press(key):
                 json.dump(key_binding_json_new, f, indent=4)
             key_binding_json = key_binding_json_new.copy()
             print("Saved recorded positions to JSON file.")
+    
+    # print the summary of all available key bindings
+    elif key == Key.f2:
+        print_summary(key_binding_json) 
 
 
 def on_release(key):
