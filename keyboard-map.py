@@ -57,9 +57,31 @@ def print_with_color(attribute, boolean_value):
     print(f"{color_code}{attribute}: {boolean_value}{reset_code}")
 
 
+def print_help():
+    print("---- Help Menu ----")
+    print("Press Tab to toggle PAUSE mode.\n\t When PAUSE is on, all key presses will be ignored.")
+    print("按Tab键切换暂停模式。\n\t 当暂停模式开启时，所有按键将被忽略。\n")
+
+    print("Press Caps Lock to toggle KEEP_MOVING mode.\n\t When KEEP_MOVING is on, the character will keep moving until you press Caps Lock again.")
+    print("按Caps Lock键切换持续移动模式。\n\t 当持续移动模式开启时，角色将持续移动，直到你再次按下Caps Lock键。\n")
+
+    print("Press Space, Shift, Tab, Esc or F M J H E (case-insensitive) to perform a click at the corresponding position defined.")
+    print("按空格、Shift、Tab、Esc或F M J H E（不区分大小写）键，在定义的相应位置执行点击。\n")
+
+    print("Press A S D W (case-insensitive) to move in the corresponding direction.")
+    print("按A S D W（不区分大小写）键，向相应方向移动。\n")
+
+    #  Press and hold to keep moving, release to stop.
+    print("Press F1 to start recording a new position for the next key press.\n\t Press the desired key and move the mouse to the new position. When finished with all changes, press F1 again to save it to the JSON file.")
+    print("按F1键开始记录下一个按键的新位置。\n\t 按下想要更改位置的键，并将鼠标移动到新位置。完成所有更改后，再次按F1键将其保存到JSON文件中。\n")
+
+    print("Press F2 to see the summary of all available key bindings and their positions.")
+    print("按F2键查看所有可用按键绑定及其位置的摘要。\n")
+    print("---- Help Menu ----")
+
+
 def print_summary(key_binding_json):
     print("---- Available Key Bindings ----")
-    print("Current key bindings:")
     for action, bindings in key_binding_json.items():
         print(f"{action}:")
         for key_name, pos in bindings.items():
@@ -144,6 +166,9 @@ def on_press(key):
     elif key == Key.f2:
         print_summary(key_binding_json) 
 
+    elif key == Key.f3:
+        print_help()
+
 
 def on_release(key):
     global DISABLE_RELEASE
@@ -178,8 +203,8 @@ if __name__ == "__main__":
     # read from json file
     with open(json_path, 'r') as f:
         key_binding_json = json.load(f)
-        print("Loaded JSON data:", key_binding_json)
-    
+        print("Reading from existing key binding JSON file. DONE!")
+        # print("Loaded JSON data:", key_binding_json)
 
     CENTER_X = key_binding_json["move"]["center"][0]
     CENTER_Y = key_binding_json["move"]["center"][1]
@@ -190,7 +215,7 @@ if __name__ == "__main__":
             on_press=on_press,
             on_release=on_release,
             ) as LISTEN:
-        print("Welcome to use the keyboard-mouse control script!")
-        print("Listening to keyboard events... Press F1 to start recording/replacing key positions. Press F2 to see the summary of available key bindings.")
+        print("✨ 𝓦𝓮𝓵𝓬𝓸𝓂𝓮 ✨ to keyboard-mouse binding ────୨ৎ────")
+        print("Listening to keyboard events... Press F3 for help.")
         LISTEN.join()
 
