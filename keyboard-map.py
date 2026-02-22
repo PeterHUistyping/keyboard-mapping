@@ -15,7 +15,7 @@ from pynput.keyboard import Key, Listener
 
 
 # global MOUSE, LISTEN, PAUSE, KEEP_MOVING, DISABLE_RELEASE, RECORD_KEYS, key_binding_json_new
-PAUSE, KEEP_MOVING, DISABLE_RELEASE, RECORD_KEYS = False, False, False, False
+PAUSE, KEEP_MOVING, DISABLE_RELEASE, RECORD_KEYS, VERBOSE = False, False, False, False, False
 key_binding_json, key_binding_json_new = {}, {}
 HISTORY_CHAR = '-1'
 MOUSE = Controller()
@@ -54,7 +54,7 @@ def cust_release(x,y):
 def print_with_color(attribute, boolean_value):
     color_code = "\033[92m" if boolean_value else "\033[91m"  # Green for True, Red for False
     reset_code = "\033[0m"
-    print(f"{color_code}{attribute}: {boolean_value}{reset_code}")
+    print(f"\n{color_code}{attribute}: {boolean_value}{reset_code}\n")
 
 
 def print_help():
@@ -77,6 +77,12 @@ def print_help():
 
     print("Press F2 to see the summary of all available key bindings and their positions.")
     print("按F2键查看所有可用按键绑定及其位置的摘要。\n")
+
+    print("Press F3 to see this help menu again.")
+    print("按F3键再次查看此帮助菜单。\n")
+
+    print("Press F4 to toggle VERBOSE mode.\n\t When VERBOSE is on, it will print the key presses and releases along with the mouse position.")
+    print("按F4键切换详细模式。\n\t 当详细模式开启时，它将打印按键和释放以及鼠标位置。\n")
     print("---- Help Menu ----")
 
 
@@ -90,9 +96,10 @@ def print_summary(key_binding_json):
 
 
 def on_press(key):
-    global PAUSE, KEEP_MOVING, DISABLE_RELEASE, HISTORY_CHAR, RECORD_KEYS, key_binding_json, key_binding_json_new, json_path
+    global PAUSE, KEEP_MOVING, DISABLE_RELEASE, HISTORY_CHAR, RECORD_KEYS, key_binding_json, key_binding_json_new, json_path, VERBOSE
     pos_x, pos_y = MOUSE.position
-    print('{0} pressed at ({1}, {2})' .format(key, int(pos_x), int(pos_y))) 
+    if VERBOSE:
+        print('{0} pressed at ({1}, {2})' .format(key, int(pos_x), int(pos_y))) 
 
     # LISTEN.stop() 
     if key == Key.tab:
@@ -168,11 +175,16 @@ def on_press(key):
 
     elif key == Key.f3:
         print_help()
+    
+    elif key == Key.f4:
+        VERBOSE = not VERBOSE
+        print_with_color("VERBOSE", VERBOSE)
 
 
 def on_release(key):
     global DISABLE_RELEASE
-    print('{0} release'.format(key))
+    if VERBOSE:
+        print('{0} release'.format(key))
 
     BOOL_STOP = False
     if key == Key.space:
