@@ -76,7 +76,7 @@ def on_press(key):
             key_binding_json_new["click"][key.name] = [int(pos_x), int(pos_y)]
 
     elif hasattr(key, 'char'): 
-        if key.char == HISTORY_CHAR:
+        if key.char == HISTORY_CHAR and False:
             DISABLE_RELEASE = True
         else:
             DISABLE_RELEASE = False
