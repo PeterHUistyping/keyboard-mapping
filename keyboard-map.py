@@ -190,6 +190,7 @@ if __name__ == "__main__":
             on_press=on_press,
             on_release=on_release,
             ) as LISTEN:
-        print("Listener starting...")
+        print("Welcome to use the keyboard-mouse control script!")
+        print("Listening to keyboard events... Press F1 to start recording/replacing key positions. Press F2 to see the summary of available key bindings.")
         LISTEN.join()
 
