@@ -2,3 +2,9 @@
 
 *.png
 *.jpg
+
+# *.spec
+
+.vscode/
+build/
+dist/
