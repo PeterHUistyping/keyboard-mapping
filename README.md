@@ -1,9 +1,11 @@
-# Keyboard mapping tool for scrcpy
+# Keyboard mapping tool for e.g. scrcpy
 
-This tool allows you to create custom keyboard mappings for scrcpy, enabling you to control your Android device using your keyboard.
-  - e.g. for [scrcpy](https://github.com/genymobile/scrcpy), which is a screen copying, mirroring and control tool for Android devices, or other tasks that require keyboard input to control an Android device.
+This tool allows you to create custom keyboard mappings, enabling you to control your Android device using your keyboard.
+
+- e.g. for [scrcpy](https://github.com/genymobile/scrcpy), which is a screen copying, mirroring and control tool for Android devices, or other tasks that require keyboard input to control an Android device.
 
 ## Features
+
 - Create custom keyboard mappings for scrcpy (F1 key).
 - Save and load keyboard mapping configurations (F2 key).
 - Help menu for instructions (F3 key).
@@ -12,6 +14,7 @@ This tool allows you to create custom keyboard mappings for scrcpy, enabling you
 - Pause the keyboard mapping tool (Tab key to toggle).
 
 The current version supports emulating only a single key press.
+
 - Features tested on macOS full screen mode.
 
 ## Usage
@@ -21,7 +24,6 @@ The current version supports emulating only a single key press.
 3. Allow system permissions of Privacy & Security -> Accessibility + Input Monitoring for the terminal and python IDEs.
 4. Update the python path in `scrcpy.sh`.
 5. Run the tool and follow the help instructions to create your keyboard mapping.
-
 
 ## Example configuration
 
@@ -55,4 +57,3 @@ The current version supports emulating only a single key press.
 ```
 
 ![Where winds meet-Yanyun](./archive/YanYun.png)
-
