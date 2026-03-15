@@ -7,7 +7,7 @@
     https://pynput.readthedocs.io/en/latest/limitations.html
     https://pynput.readthedocs.io/en/latest/mouse.html
 
-    sudo /opt/homebrew/bin/python3.10 mirror/keyboard-map.py
+    sudo /opt/homebrew/bin/python3.10 keyboard-map.py
 '''
 import json, os, time
 from pynput.mouse import Button, Controller

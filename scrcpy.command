@@ -1,5 +1,11 @@
-# sudo bash /Users/peterhu/Documents/LargeFiles/Coding/utils/mirror/scrcpy.sh
-sudo -v
-# key bindings & scrcpy
-sudo /opt/homebrew/bin/python3.10 /Users/peterhu/Documents/LargeFiles/Coding/utils/mirror/keyboard-map.py & scrcpy -d > /dev/null 2>&1 
+# sudo bash scrcpy.sh
+# Get the directory where this .command file is located
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Change the terminal's current working directory to that folder
+cd "$DIR"
+
+# check current folder
+pwd
+
+sudo bash scrcpy.sh
