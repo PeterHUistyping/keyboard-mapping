@@ -8,4 +8,4 @@ cd "$DIR"
 # check current folder
 pwd
 
-sudo bash scrcpy.sh
+sudo bash keyboard-scrcpy.sh
